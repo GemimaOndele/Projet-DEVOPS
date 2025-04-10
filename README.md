@@ -79,29 +79,28 @@ plus, l’application gère plusieurs types d’utilisateurs, chacun ayant un r�
 ● Ont accès à un tableau de bord pour suivre les statistiques : 
 
 par : M. ACHIR 
+
 ○ Nombre total de tickets ouverts/résolus. 
 
 ○ Temps moyen de résolution par technicien. 
 
 ○ Priorisation des tickets critiques. 
 
-Chaque utilisateur est caractérisé par les informations suivantes : un identifiant unique (id), un nom (nom), un 
-e-mail (email), mot de passe crypté (mot_de_passe), rôle ("Employé", "Technicien", "Admin"), date 
-d’enregistrement de l’utilisateur (date_inscription). 
+Chaque utilisateur est caractérisé par les informations suivantes : un identifiant unique (id), un nom (nom), un e-mail (email), mot de passe crypté (mot_de_passe), rôle ("Employé", "Technicien", "Admin"), date d’enregistrement de l’utilisateur (date_inscription). 
 
 Questions :  - - - - - - 
+
 Quelle architecture choisissez-vous pour votre solution ? Monolithique ou microservices ? 
 
 Justifiez votre réponse en expliquant pourquoi ce choix est le plus adapté à votre projet. 
 
-Utilisez Git et github pour une organisation efficace du code source et l’amélioration de la 
-collaboration au sein de votre équipe.  
+Utilisez Git et github pour une organisation efficace du code source et l’amélioration de la collaboration au sein de votre équipe.  
 
-Concevoir et développer une application web fonctionnelle. Le choix des frameworks frontend 
-et backend, ainsi que celui de la base de données, est libre. 
+Concevoir et développer une application web fonctionnelle.
 
-Identifier les étapes clés du pipeline CI/CD et proposer un Jenkinsfile automatisé pour gérer le 
-build, la conteneurisation, le déploiement de votre application, etc. 
+Le choix des frameworks frontend et backend, ainsi que celui de la base de données, est libre. 
+
+Identifier les étapes clés du pipeline CI/CD et proposer un Jenkinsfile automatisé pour gérer le build, la conteneurisation, le déploiement de votre application, etc. 
 
 Conteneuriser l’application et la déployer avec Docker Compose en multi-conteneurs. 
 
@@ -128,8 +127,6 @@ expliqués).
 
 Soumettre le projet finalisé avec tous les fichiers nécessaires : 
 
-Code source complet de l’application, fichier docker-compose.yml, Fichier Jenkinsfile, 
-Dockerfiles pour chaque service, rapport détaillé en format pdf et une vidéo de démonstration de la 
-solution. 
+Code source complet de l’application, fichier docker-compose.yml, Fichier Jenkinsfile, Dockerfiles pour chaque service, rapport détaillé en format pdf et une vidéo de démonstration de la solution. 
 
 Ce projet a été réalisé par **@Niangoran Esther BOKA,@Gemima ONDELE POUROU,@Assane BEYE AMAR,@Maxime CORNU** sous la supervsion de la **proffesseure Mme MERIEM ACHIR.**
