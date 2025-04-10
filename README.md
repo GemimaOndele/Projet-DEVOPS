@@ -50,7 +50,8 @@ plus, l’application gère plusieurs types d’utilisateurs, chacun ayant un r�
 
 �
 � 
- Employés
+ Employés :
+ 
 ● Peuvent soumettre des tickets. 
 
 ● Peuvent consulter l’état de leurs tickets. 
@@ -59,7 +60,8 @@ plus, l’application gère plusieurs types d’utilisateurs, chacun ayant un r�
 
 �
 �
- Techniciens 
+ Techniciens :
+ 
 ● Peuvent consulter la liste des tickets ouverts. 
 
 ● Peuvent mettre à jour les tickets en indiquant les actions effectuées. 
@@ -68,7 +70,7 @@ plus, l’application gère plusieurs types d’utilisateurs, chacun ayant un r�
 
 �
 �
- Administrateurs 
+ Administrateurs :
  
 ● Peuvent gérer les utilisateurs (ajouter/supprimer des techniciens et employés).
 
@@ -130,4 +132,4 @@ Code source complet de l’application, fichier docker-compose.yml, Fichier Jenk
 Dockerfiles pour chaque service, rapport détaillé en format pdf et une vidéo de démonstration de la 
 solution. 
 
-Ce projet a été réalisé par **@Niangoran Esther BOKA,@Gemima ONDELE POUROU,@Assane BEYE AMAR,@Maxime CORNU.**
+Ce projet a été réalisé par **@Niangoran Esther BOKA,@Gemima ONDELE POUROU,@Assane BEYE AMAR,@Maxime CORNU** sous la supervsion de la **proffesseure Mme MERIEM ACHIR.**
