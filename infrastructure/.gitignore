@@ -1,0 +1,9 @@
+# Crée le dossier frontend s'il n'existe pas
+mkdir -p frontend
+# Crée un fichier .gitignore à l'intérieur du dossier
+echo "*" > frontend/.gitignore
+echo "!.gitignore" >> frontend/.gitignore
+# Ajoute le fichier .gitignore à l'index de Git
+git add frontend/.gitignore
+# Valide les modifications
+git commit -m "Ajout du dossier frontend avec .gitignore"
