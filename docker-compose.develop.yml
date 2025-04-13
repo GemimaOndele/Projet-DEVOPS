@@ -1,0 +1,30 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./feature/backend/api-ticket
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./feature/frontend/interface-ticket
+    ports:
+      - "3000:3000"
+
+  jenkins:
+    build:
+      context: ./feature/infrastructure/jenkins-pipeline
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+
+  # Vous pouvez aussi ajouter un service pour tester la configuration Docker Compose spécifique à une feature,
+  # bien que souvent docker-compose.yml soit utilisé pour orchestrer les services plutôt que pour en être un.
+  # Par exemple, si vous avez des fichiers spécifiques dans le dossier feature/infrastructure/docker-compose,
+  # vous pourriez créer une image ou un service qui utilise ces fichiers comme base de configuration.
+  docker_config:
+    build:
+      context: ./feature/infrastructure/docker-compose
+    # Ce service est optionnel et dépend de votre cas d'utilisation (par exemple, pour valider une configuration)
+    command: echo "Configuration docker-compose validée"
