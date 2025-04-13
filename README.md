@@ -1,4 +1,20 @@
 # Gestion Tickets
+Front-end
+
+│── src/
+│   ├── components/
+│   │   ├── TicketForm.js
+│   │   ├── TicketList.js
+│   │   ├── Notification.js
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── TicketDetail.js
+│   ├── services/
+│   │   ├── api.js
+│   ├── App.js
+│   ├── index.js
+│── package.json
+
 
 # Projet-DEVOPS
 
