@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'develop', url: 'https://github.com/votre-utilisateur/gestion-tickets.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Ajoutez les commandes de build (par exemple, pour le frontend et le backend)
+                sh 'echo "Build en cours..."'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Exécution de tests unitaires / d'intégration
+                sh 'echo "Tests en cours..."'
+            }
+        }
+        stage('Docker Build and Push') {
+            steps {
+                // Construction des images Docker et push vers un registre (Docker Hub, par exemple)
+                sh 'echo "Construction et push des images Docker..."'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Déploiement via Docker Compose ou vers un serveur de production
+                sh 'echo "Déploiement en production..."'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline terminé avec succès'
+        }
+        failure {
+            echo 'Pipeline échoué'
+        }
+    }
+}
