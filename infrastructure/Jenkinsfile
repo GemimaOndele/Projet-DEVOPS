@@ -4,7 +4,15 @@ pipeline {
   stages {
     stage('Cloner le code') {
       steps {
-        git 'https://github.com/GemimaOndele/Projet-DEVOPS.git'
+        git branch: 'main', url: 'https://github.com/GemimaOndele/Projet-DEVOPS.git'
+      }
+    }
+
+    stage('Connexion à DockerHub') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+          sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+        }
       }
     }
 
@@ -31,7 +39,7 @@ pipeline {
   post {
     always {
       echo 'Nettoyage des conteneurs...'
-      sh 'docker-compose down'
+      sh 'docker-compose down --volumes'
     }
   }
 }
