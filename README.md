@@ -1,6 +1,7 @@
 Projet-DEVOPS
 
-  Projet DevOps : Déploiement d’une plateforme de Gestion des Tickets de Support IT 
+    Projet DevOps : Déploiement d’une plateforme de Gestion des Tickets de Support IT 
+  
 Dans une entreprise moderne, les employés rencontrent fréquemment des problèmes techniques nécessitant l'intervention du service IT : pannes matérielles, bugs logiciels, accès refusé à certaines ressources, etc.
 
 Une gestion efficace de ces incidents est cruciale pour assurer la productivité et le bon fonctionnement des services. Afin de répondre à ce besoin, votre équipe est chargée de concevoir et de déployer une plateforme web de gestion des tickets de support IT, permettant aux employés de soumettre des tickets de support IT et aux techniciens de les traiter de manière efficace.
@@ -111,4 +112,4 @@ Soumettre le projet finalisé avec tous les fichiers nécessaires :
 
 Code source complet de l’application, fichier docker-compose.yml, Fichier Jenkinsfile, Dockerfiles pour chaque service, rapport détaillé en format pdf et une vidéo de démonstration de la solution.
 
-Ce projet a été réalisé par @Niangoran Esther BOKA,@Gemima ONDELE POUROU,@Assane BEYE AMAR,@Maxime CORNU sous la superivsion de la professeure Mme MERIEM ACHIR.
+Ce projet a été réalisé par **@Niangoran Esther BOKA,@Gemima ONDELE POUROU,@Assane BEYE AMAR,@Maxime CORNU sous la supervision de la professeure Mme MERIEM ACHIR.**
