@@ -49,3 +49,28 @@ exports.mettreAJourTicket = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.supprimerTicket = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Ticket.destroy({
+      where: { id }
+    });
+    res.json({ message: 'Ticket supprimé' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+exports.getTicketsParEmploye = async (req, res) => {
+  try {
+    const { id_employe } = req.params;
+    const tickets = await Ticket.findAll({
+      where: { id_employe },
+      include: ['employe', 'technicien', 'commentaires']
+    });
+    res.json(tickets);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
