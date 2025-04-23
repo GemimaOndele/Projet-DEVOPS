@@ -4,17 +4,17 @@ FROM node:18
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le fichier package.json et package-lock.json
-COPY ./package*.json ./
+# Copier les fichiers package.json et package-lock.json
+COPY package.json ./
 
 # Installer les dépendances
 RUN npm install
 
-# Copier le reste des fichiers du frontend dans le conteneur
+# Copier tout le reste (après avoir installé les dépendances)
 COPY . .
 
-# Exposer le port où l'application React sera servie
-EXPOSE 3000
+# Exposer le port de l'application
+EXPOSE 4000
 
-# Commande pour démarrer l'application frontend
-CMD ["npm", "start"]
+# Lancer le serveur Express (dans src/index.js)
+CMD ["node", "src/index.js"]
