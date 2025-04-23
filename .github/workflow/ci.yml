@@ -1,0 +1,99 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+
+jobs:
+  frontend:
+    # Exécuter ce job si on est sur une branche frontend, ou sur develop/main qui cumule toutes les features validées.
+    if: startsWith(github.ref, 'refs/heads/feature/frontend/') || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies (Frontend)
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run tests (Frontend)
+        run: |
+          cd frontend
+          npm test
+
+      - name: Build (Frontend)
+        run: |
+          cd frontend
+          npm run build
+
+  backend:
+    if: startsWith(github.ref, 'refs/heads/feature/backend/') || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies (Backend)
+        run: |
+          cd backend
+          npm install
+
+      - name: Run tests (Backend)
+        run: |
+          cd backend
+          npm test
+
+      - name: Build (Backend)
+        run: |
+          cd backend
+          npm run build
+
+  jenkins_pipeline:
+    if: startsWith(github.ref, 'refs/heads/feature/infrastructure/jenkins-pipeline') || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Validate Jenkinsfile
+        run: |
+          if [ -f Jenkinsfile ]; then
+            echo "Jenkinsfile exists";
+          else
+            echo "Jenkinsfile missing";
+            exit 1;
+          fi
+
+  docker_compose:
+    if: startsWith(github.ref, 'refs/heads/feature/infrastructure/docker-compose') || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Validate docker-compose.yml
+        run: |
+          if [ -f docker-compose.yml ]; then
+            echo "docker-compose.yml exists";
+          else
+            echo "docker-compose.yml missing";
+            exit 1;
+          fi
