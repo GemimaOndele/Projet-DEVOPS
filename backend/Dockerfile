@@ -1,20 +1,20 @@
 # Utiliser l'image officielle de Node.js
 FROM node:18
 
-# Définir le répertoire de travail
+# Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copier le fichier package.json et package-lock.json
-COPY ./package*.json ./
+# Copier les fichiers de dépendances en premier (cela permet d'utiliser le cache Docker si les deps ne changent pas)
+COPY package*.json ./
 
 # Installer les dépendances
 RUN npm install
 
-# Copier le reste des fichiers du backend dans le conteneur
+# Copier le reste des fichiers de l'application
 COPY . .
 
-# Exposer le port où l'API sera servie
+# Exposer le port sur lequel l'app tourne
 EXPOSE 4000
 
-# Commande pour démarrer l'API backend
+# Lancer l'application
 CMD ["node", "app.js"]
