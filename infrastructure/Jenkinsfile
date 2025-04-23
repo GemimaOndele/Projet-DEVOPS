@@ -39,7 +39,9 @@ pipeline {
   post {
     always {
       echo 'Nettoyage des conteneurs...'
-      sh 'docker-compose down --volumes'
+      node {
+        sh 'docker-compose down --volumes'
+      }
     }
   }
 }
