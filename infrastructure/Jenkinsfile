@@ -1,47 +1,40 @@
 pipeline {
-  agent any
+    agent any  // Choisit automatiquement un agent disponible
 
-  stages {
-    stage('Cloner le code') {
-      steps {
-        git branch: 'main', url: 'https://github.com/GemimaOndele/Projet-DEVOPS.git'
-      }
+    environment {
+        // Tu peux définir des variables d'environnement ici si besoin
+        DOCKER_IMAGE = 'mon-image-devops'
     }
 
-    stage('Connexion à DockerHub') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/GemimaOndele/Projet-DEVOPS.git', branch: 'main'
+            }
         }
-      }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t $DOCKER_IMAGE .'
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                script {
+                    sh 'docker run -d --name mon-conteneur-devops $DOCKER_IMAGE'
+                }
+            }
+        }
     }
 
-    stage('Build des images Docker') {
-      steps {
-        sh 'docker build -f Dockerfile.ticket-service -t tickets-backend ./backend/ticket-service'
-        sh 'docker build -f Dockerfile.frontend -t tickets-frontend ./frontend'
-      }
+    post {
+        always {
+            echo 'Nettoyage Docker...'
+            sh 'docker container prune -f'
+            sh 'docker image prune -f'
+        }
     }
-
-    stage('Lancer les conteneurs') {
-      steps {
-        sh 'docker-compose up -d'
-      }
-    }
-
-    stage('Test de l\'API') {
-      steps {
-        sh 'curl -X GET http://localhost:4000/api/tickets || true'
-      }
-    }
-  }
-
-  post {
-    always {
-      echo 'Nettoyage des conteneurs...'
-      node {
-        sh 'docker-compose down --volumes'
-      }
-    }
-  }
 }
