@@ -1,0 +1,4 @@
+axios 
+socket.io-client 
+react-router-dom 
+styled-components
