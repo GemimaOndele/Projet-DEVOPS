@@ -1,40 +1,115 @@
 pipeline {
-    agent any  // Choisit automatiquement un agent disponible
+    agent any
 
     environment {
-        // Tu peux définir des variables d'environnement ici si besoin
-        DOCKER_IMAGE = 'mon-image-devops'
+        DOCKER_IMAGE_FRONTEND = 'frontend-image'
+        DOCKER_IMAGE_BACKEND = 'backend-image'
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub-creds'
+        DOCKERHUB_USERNAME = 'assane764'
+        FRONTEND_IMAGE_TAG = "${env.BUILD_NUMBER}-frontend"
+        BACKEND_IMAGE_TAG = "${env.BUILD_NUMBER}-backend"
+        FRONTEND_DOCKERFILE_PATH = 'C:/Users/assan/Projet-DEVOPS/frontend/Dockerfile'
+        BACKEND_DOCKERFILE_PATH = 'C:/Users/assan/Projet-DEVOPS/backend/Dockerfile'
     }
 
     stages {
         stage('Checkout') {
             steps {
+                echo "📂 Récupération du code depuis le repository..."
                 git url: 'https://github.com/GemimaOndele/Projet-DEVOPS.git', branch: 'main'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Frontend Docker Image') {
+            steps {
+                echo "🛠 Construction de l’image Docker pour le frontend..."
+                bat "docker build -t %DOCKER_IMAGE_FRONTEND%:%FRONTEND_IMAGE_TAG% -f %FRONTEND_DOCKERFILE_PATH% C:/Users/assan/Projet-DEVOPS/frontend"
+            }
+        }
+
+        stage('Build Backend Docker Image') {
+            steps {
+                echo "🛠 Construction de l’image Docker pour le backend..."
+                bat "docker build -t %DOCKER_IMAGE_BACKEND%:%BACKEND_IMAGE_TAG% -f %BACKEND_DOCKERFILE_PATH% C:/Users/assan/Projet-DEVOPS/backend"
+            }
+        }
+
+        stage('Test Frontend Container') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_IMAGE .'
+                    bat 'docker stop frontend-container || exit 0'
+                    bat 'docker rm frontend-container || exit 0'
+                    bat "docker run -d --name frontend-container %DOCKER_IMAGE_FRONTEND%:%FRONTEND_IMAGE_TAG%"
+                    echo "Vérification du démarrage du conteneur frontend..."
+                    bat 'docker ps -a'
                 }
             }
         }
 
-        stage('Run Container') {
+        stage('Test Backend Container') {
             steps {
                 script {
-                    sh 'docker run -d --name mon-conteneur-devops $DOCKER_IMAGE'
+                    bat 'docker stop backend-container || exit 0'
+                    bat 'docker rm backend-container || exit 0'
+                    bat "docker run -d --name backend-container %DOCKER_IMAGE_BACKEND%:%BACKEND_IMAGE_TAG%"
+                    echo "Vérification du démarrage du conteneur backend..."
+                    bat 'docker ps -a'
                 }
+            }
+        }
+
+        stage('Push Frontend to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS_ID) {
+                        bat "docker tag %DOCKER_IMAGE_FRONTEND%:%FRONTEND_IMAGE_TAG% %DOCKERHUB_USERNAME%/%DOCKER_IMAGE_FRONTEND%:%FRONTEND_IMAGE_TAG%"
+                        bat "docker push %DOCKERHUB_USERNAME%/%DOCKER_IMAGE_FRONTEND%:%FRONTEND_IMAGE_TAG%"
+                    }
+                }
+            }
+        }
+
+        stage('Push Backend to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS_ID) {
+                        bat "docker tag %DOCKER_IMAGE_BACKEND%:%BACKEND_IMAGE_TAG% %DOCKERHUB_USERNAME%/%DOCKER_IMAGE_BACKEND%:%BACKEND_IMAGE_TAG%"
+                        bat "docker push %DOCKERHUB_USERNAME%/%DOCKER_IMAGE_BACKEND%:%BACKEND_IMAGE_TAG%"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Locally') {
+            steps {
+                echo "🚀 Déploiement local avec docker-compose..."
+                bat """
+                    powershell -Command "(Get-Content docker-compose.yml).replace('\${BUILD_NUMBER}', '%BUILD_NUMBER%') | Set-Content docker-compose.generated.yml"
+                """
+                bat 'docker-compose -f docker-compose.generated.yml down || exit 0'
+                bat 'docker-compose -f docker-compose.generated.yml up -d'
+            }
+        }
+
+        stage('Smoke Test Backend') {
+            steps {
+                echo "🔍 Vérification que le backend répond..."
+                bat 'curl http://localhost:4000 || exit 1'
             }
         }
     }
 
     post {
         always {
-            echo 'Nettoyage Docker...'
-            sh 'docker container prune -f'
-            sh 'docker image prune -f'
+            echo '🧹 Nettoyage Docker...'
+            script {
+                bat 'docker stop frontend-container || exit 0'
+                bat 'docker rm frontend-container || exit 0'
+                bat 'docker stop backend-container || exit 0'
+                bat 'docker rm backend-container || exit 0'
+                bat 'docker image prune -f'
+                bat 'docker container prune -f'
+            }
         }
     }
 }
