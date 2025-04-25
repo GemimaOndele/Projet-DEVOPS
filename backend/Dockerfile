@@ -1,20 +1,29 @@
-# Utiliser l'image officielle de Node.js
 FROM node:18
 
-# Définir le répertoire de travail
+# Installe les outils nécessaires pour la compilation de dépendances natives
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    sqlite3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crée et définit le répertoire de travail dans le conteneur
 WORKDIR /app
+COPY .env .env
+# Copie package.json et package-lock.json pour installer les dépendances
+COPY package*.json ./
 
-# Copier le fichier package.json et package-lock.json
-COPY ./package*.json ./
+# Nettoie les dépendances existantes (si déjà présentes)
+RUN rm -rf node_modules
 
-# Installer les dépendances
-RUN npm install
+# Installe les dépendances du projet
+RUN npm install --build-from-source
 
-# Copier le reste des fichiers du backend dans le conteneur
+# Copie le reste des fichiers du projet
 COPY . .
 
-# Exposer le port où l'API sera servie
+# Expose le port pour l'application
 EXPOSE 4000
 
-# Commande pour démarrer l'API backend
+# Commande pour démarrer l'application
 CMD ["node", "app.js"]

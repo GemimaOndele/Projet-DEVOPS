@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    image: assane764/backend-image:${BUILD_NUMBER}-backend
+    container_name: backend-container
+    ports:
+      - "4000:4000"
+    environment:
+      - DB_STORAGE=./database.sqlite
+
+  frontend:
+    image: assane764/frontend-image:${BUILD_NUMBER}-frontend
+    container_name: frontend-container
+    ports:
+      - "3000:3000"

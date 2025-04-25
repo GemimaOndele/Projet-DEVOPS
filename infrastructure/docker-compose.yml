@@ -1,30 +1,31 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-  ticket-service:
-    build:
-      context: .
-      dockerfile: Dockerfile.ticket-service
-    ports:
-      - "4000:4000"
-    depends_on:
-      - mongo
-
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: assane764/frontend-image:${BUILD_NUMBER:-latest}-frontend
     ports:
       - "3000:3000"
-    depends_on:
-      - ticket-service
+    environment:
+      - FRONTEND_URL=http://frontend:3000
+    networks:
+      - app-network
 
-volumes:
-  mongo-data:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: assane764/backend-image:${BUILD_NUMBER:-latest}-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - BACKEND_URL=http://backend:4000
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+  
