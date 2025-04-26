@@ -1,31 +1,28 @@
-version: '3.8'
-
+# fichier : infrastructure/docker-compose_test.yml
+version: '3.8'  
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    image: assane764/frontend-image:${BUILD_NUMBER:-latest}-frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - FRONTEND_URL=http://frontend:3000
-    networks:
-      - app-network
-
   backend:
     build:
-      context: ./backend
+      context: ../backend
       dockerfile: Dockerfile
-    image: assane764/backend-image:${BUILD_NUMBER:-latest}-backend
+    image: tickets-backend:latest
     ports:
       - "4000:4000"
-    environment:
-      - BACKEND_URL=http://backend:4000
-    networks:
-      - app-network
+      - "8000:8000"
 
-networks:
-  app-network:
-    driver: bridge
-  
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    image: tickets-frontend:latest
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+    ports:
+      - "3000:3000"
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8081:8080"
+      - "50000:50000"

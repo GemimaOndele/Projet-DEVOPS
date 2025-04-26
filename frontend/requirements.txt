@@ -2,3 +2,8 @@ axios
 socket.io-client 
 react-router-dom 
 styled-components
+web-vitals
+//npm install axios --save
+
+//npm install favicons CLI
+//npm install web-vitals --save

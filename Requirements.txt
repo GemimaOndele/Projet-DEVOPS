@@ -1,3 +1,8 @@
 pandas
 numpy 
 requests
+python-socketio
+# ou socketIO-client>=0.7.2 si nécessaire
+
+#npm install react axios socket.io-client react-router-dom styled-components
+#npm install react-bootstrap bootstrap react-icons react-toastify react-datepicker

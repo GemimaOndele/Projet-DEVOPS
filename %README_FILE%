@@ -1,0 +1,14 @@
+docker
+build
+-f
+frontend/Dockerfile
+-t
+tickets-frontend
+./frontend
+docker
+build
+-f
+backend/ticket-service/Dockerfile
+-t
+tickets-backend
+./backend/ticket-service

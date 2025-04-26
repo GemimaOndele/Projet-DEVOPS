@@ -29,4 +29,14 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Quelque chose a mal tourné !' }); // Retourne une erreur générique
 });
 
+// Mauvais : n’écoute que localhost
+app.listen(4000, 'localhost', () => {
+  console.log('Backend démarré sur http://localhost:4000');
+});
+
+// Bon : écoute sur toutes les interfaces
+app.listen(4000, '0.0.0.0', () => {
+  console.log('Backend démarré sur http://0.0.0.0:4000');
+});
+
 module.exports = app;
