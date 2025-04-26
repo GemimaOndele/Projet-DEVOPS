@@ -6,9 +6,40 @@ services:
       context: ../backend
       dockerfile: Dockerfile
     image: tickets-backend:latest
+    command: node server.js             # override du CMD pour lancer server.js :contentReference[oaicite:3]{index=3}
     ports:
       - "5000:5000"
-  
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER:  user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB:     ticketsdb
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy       # Attend que Postgres soit UP :contentReference[oaicite:2]{index=2}
+      environment:
+      DB_HOST:      db
+      DB_USER:      user
+      DB_PASSWORD:  password
+      DB_NAME:      ticketsdb
+      ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
 
   frontend:
     build:

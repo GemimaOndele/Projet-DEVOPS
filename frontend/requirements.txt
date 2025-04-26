@@ -12,3 +12,5 @@ web-vitals
 //npm install --save-dev react-router-dom   
 //npm install --save-dev styled-components
 //npm install --save-dev concurrently
+//npm install -g serve
+//serve -s build

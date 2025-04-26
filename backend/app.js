@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const app = express();
+
+app.use(express.json());
 require('dotenv').config();
 const { sequelize } = require('./models');
 
@@ -7,12 +10,20 @@ const utilisateurRoutes = require('./routes/utilisateurRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const commentaireRoutes = require('./routes/commentaireRoutes');
 
-const app = express();
-
 // Middleware pour activer CORS
-app.use(cors());
-//app.use(cors({ origin: "http://localhost:3000" }));
-app.use(express.json());
+//app.use(cors());
+
+// Autorise votre front local
+app.use(cors({ origin: 'http://localhost:3000' }));  // permet les requêtes depuis votre front :contentReference[oaicite:4]{index=4}
+app.use((err, req, res, next) => {
+  console.error("Erreur capturée :", err);     // ← log complet de l’erreur :contentReference[oaicite:0]{index=0}
+  res.status(500).json({ 
+    message: err.message,                     // ← pour voir le message d’erreur précis
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  });
+});
+
+// Nos routes…
 
 // Routes
 app.use('/api/utilisateurs', utilisateurRoutes);
