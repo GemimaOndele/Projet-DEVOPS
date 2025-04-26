@@ -16,4 +16,4 @@ STRUCTUTRE
 
 Lancement du projet 
 
-Pour lancer l'application , ecrire "npm start" dans le terminal puis lancer
+Pour lancer l'application , ecrire "npm install", "npm start","npm run build", dans le terminal puis lancer

@@ -7,19 +7,28 @@
     "express": "^5.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "web-vitals": "^2.1.4"
   },
+  
   "scripts": {
-    "start": "HOST=0.0.0.0 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "cross-env HOST=0.0.0.0 PORT=3000 react-scripts start",
+    "build": "cross-env react-scripts build",
+    "test":  "cross-env react-scripts test",
+    "eject": "cross-env react-scripts eject",
+    "dev": "concurrently \"npm run backend\" \"npm start\"",
+    "backend": "node ../backend/server.js",
+    "heroku-postbuild": "npm run build --prefix client",
+    "heroku-prebuild": "npm install --prefix client",
+    "client": "npm start --prefix client"
   },
   "eslintConfig": {
-    "extends": ["react-app", "react-app/jest"]
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -32,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

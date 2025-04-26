@@ -1,13 +1,16 @@
 const app = require('./app');
 const { sequelize } = require('./models');
 
-const PORT = process.env.PORT || 3000;
+//const PORT = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 5000;
 
 sequelize.sync({ force: false }) // force: true => recrée les tables à chaque lancement
   .then(() => {
     console.log('🗃️  Base de données synchronisée');
-    app.listen(PORT, () => {
-      console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Serveur lancé sur http://0.0.0.0:${PORT}`);
+      //console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
     });
   })
   .catch((err) => {

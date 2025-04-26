@@ -7,3 +7,8 @@ web-vitals
 
 //npm install favicons CLI
 //npm install web-vitals --save
+//npm install --save-dev cross-env
+//npm install --save-dev react-scripts
+//npm install --save-dev react-router-dom   
+//npm install --save-dev styled-components
+//npm install --save-dev concurrently
